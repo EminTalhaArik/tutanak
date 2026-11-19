@@ -8,7 +8,7 @@
   "scripts": {
     "start": "electron .",
     "mcp": "node mcp-server.js",
-    "helper": "swiftc -O -parse-as-library -swift-version 5 native/tutanak-helper.swift -o bin/tutanak-helper -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __info_plist -Xlinker native/Info.plist",
+    "helper": "mkdir -p bin && swiftc -O -parse-as-library -swift-version 5 native/tutanak-helper.swift -o bin/tutanak-helper -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __info_plist -Xlinker native/Info.plist",
     "icons": "electron scripts/make-icons.js && iconutil -c icns build/icon.iconset -o build/icon.icns",
     "test": "node --test test/*.test.js",
     "prepackage": "npm run helper",
