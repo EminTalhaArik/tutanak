@@ -1,0 +1,22 @@
+{
+  "name": "tutanak",
+  "productName": "Tutanak",
+  "version": "1.0.0",
+  "description": "Teams toplantılarını algılar, onayınla ekran videosu / ses / ses + ekran görüntüsü olarak kaydeder, cihaz üzerinde döküm çıkarır, arşivler; Claude ile MCP üzerinden paylaşır",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "mcp": "node mcp-server.js",
+    "helper": "swiftc -O -parse-as-library -swift-version 5 native/tutanak-helper.swift -o bin/tutanak-helper -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __info_plist -Xlinker native/Info.plist",
+    "icons": "electron scripts/make-icons.js && iconutil -c icns build/icon.iconset -o build/icon.icns",
+    "test": "node --test test/*.test.js",
+    "prepackage": "npm run helper",
+    "package": "electron-packager . Tutanak --platform=darwin --arch=arm64 --icon=build/icon.icns --out=dist --overwrite --app-bundle-id=org.teinn.tutanak --extend-info=build/extra-info.plist --asar.unpack=\"**/bin/tutanak-helper\" --ignore=\"^/dist\" --ignore=\"^/build\" --ignore=\"^/scripts\" --ignore=\"^/native\" --ignore=\"^/test\" --ignore=\"^/\\.dev-data\"",
+    "kur": "npm run package && bash scripts/kur.sh"
+  },
+  "devDependencies": {
+    "@electron/packager": "20.3.0",
+    "electron": "44.5.1"
+  }
+}

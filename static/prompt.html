@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'">
+  <title>Tutanak</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --text: #111; --text-2: #4b4b4f; --muted: #7d7d82; --line: rgba(0,0,0,.09);
+      --chip: rgba(0,0,0,.06); --chip-on: #fff; --rec: #d92d20; --accent: #0f766e; --btn: rgba(0,0,0,.07);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --text: #f2f2f3; --text-2: #c7c7cc; --muted: #9a9aa0; --line: rgba(255,255,255,.1);
+        --chip: rgba(255,255,255,.08); --chip-on: rgba(255,255,255,.2); --rec: #f2554a; --accent: #2bb3a3; --btn: rgba(255,255,255,.1); }
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: transparent; overflow: hidden; }
+    body { font: 13px/1.38 -apple-system, system-ui, sans-serif; color: var(--text); -webkit-font-smoothing: antialiased; user-select: none; cursor: default; }
+    #root { padding: 13px 14px 12px; position: relative; }
+    .head { display: flex; align-items: center; gap: 8px; color: var(--text-2); font-size: 12px; font-weight: 600; }
+    .head .logo { width: 20px; height: 20px; border-radius: 5px; background: var(--accent); display: grid; place-items: center; flex: none; }
+    .head .logo i { width: 8px; height: 8px; border-radius: 50%; background: #ff5a4e; display: block; box-shadow: 0 0 0 2px #fff; }
+    .head .label { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .x { border: 0; background: transparent; color: var(--muted); cursor: pointer; width: 22px; height: 22px; border-radius: 6px; display: grid; place-items: center; padding: 0; }
+    .x:hover { background: var(--btn); color: var(--text); }
+    .x svg { width: 12px; height: 12px; stroke: currentColor; stroke-width: 2.2; fill: none; stroke-linecap: round; }
+    .title { font-size: 14px; font-weight: 650; margin: 8px 0 2px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .sub { color: var(--text-2); }
+    .modes { display: flex; background: var(--chip); border-radius: 8px; padding: 2px; gap: 2px; margin: 10px 0 10px; }
+    .modes button { flex: 1; border: 0; background: transparent; color: var(--text-2); padding: 5px 4px; border-radius: 6px; font: inherit; font-size: 12px; font-weight: 550; cursor: pointer; }
+    .modes button.on { background: var(--chip-on); color: var(--text); box-shadow: 0 1px 2px rgba(0,0,0,.12); }
+    .row { display: flex; gap: 6px; margin-top: 10px; }
+    .modes + .row { margin-top: 0; }
+    .row button { flex: 1; border: 0; border-radius: 7px; padding: 7px 10px; font: inherit; font-weight: 600; cursor: pointer; background: var(--btn); color: var(--text); }
+    .row button:hover { filter: brightness(1.08); }
+    .row button.rec { background: var(--rec); color: #fff; }
+    .row button.primary { background: var(--accent); color: #fff; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--rec); display: inline-block; margin-right: 6px; animation: pulse 1.4s ease-in-out infinite; }
+    .ok { color: var(--accent); font-weight: 700; margin-right: 4px; }
+    @keyframes pulse { 50% { opacity: .3; } }
+    .warn { margin-top: 8px; font-size: 12px; color: #a15c00; }
+    @media (prefers-color-scheme: dark) { .warn { color: #f0b43a; } }
+    .timer { position: absolute; left: 0; bottom: 0; height: 2px; background: var(--accent); opacity: .7; width: 100%; transform-origin: left; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="prompt.js"></script>
+</body>
+</html>

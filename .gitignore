@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.dev-data/
+bin/
+build/icon.iconset/
+build/tray*.png
+.imza
+.DS_Store
