@@ -63,6 +63,10 @@ görünüp uygulamada kapalı görünürse Ayarlar → İzinler → **İzinleri 
 `search_transcripts`, `update_meeting` (özet, eylem maddeleri, not ekleme). İstemler: `toplanti_ozeti`, `eylem_maddeleri`.
 Ayarlar → "Claude'a bağla" `claude_desktop_config.json`'a `tutanak` girdisini ekler (Claude'u yeniden başlatın).
 
+**Ajanda ile:** Mac'te Ajanda (kişisel iş takibi uygulaması) kuruluysa toplantı ekranında
+**"Ajanda'ya böl"** düğmesi görünür: `ajanda://parcala?toplanti=<kimlik>` bağlantısıyla Ajanda açılır, Claude dökümü okuyup
+görev, not ve proje taslakları hazırlar; hiçbiri Ajanda'da onaylanmadan eklenmez. Ajanda yoksa düğme görünmez.
+
 ## İzinler
 
 Ekran kaydı, **Sistem sesi kaydı** (macOS 26'da ekran kaydından ayrı; izin yoksa ses sessiz gelir) ve mikrofon.

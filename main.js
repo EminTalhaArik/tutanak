@@ -710,6 +710,12 @@ const handlers = {
   },
   'devices': () => helper.run(['devices'], { timeoutMs: 5000 }).catch(e => ({ error: e.message, mics: [], displays: [] })),
   'test:record': () => testRecording(),
+  // Ajanda kuruluysa toplantıyı ona bölmesi için gönderir (ajanda://parcala?toplanti=…); yoksa düğme görünmez
+  'ajanda:available': () => Boolean(app.getApplicationNameForProtocol('ajanda://parcala')),
+  'ajanda:split': id => {
+    lib.meta(id); // toplantı var mı
+    return shell.openExternal(`ajanda://parcala?toplanti=${encodeURIComponent(id)}`);
+  },
   'claude:status': () => claude.status(),
   'claude:connect': () => {
     if (!app.isPackaged) throw new Error('Claude bağlantısı yalnızca /Applications\'a kurulu uygulamadan yapılabilir');

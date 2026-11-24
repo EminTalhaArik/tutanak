@@ -26,6 +26,7 @@ const ICON_PATHS = {
   copy: '<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>',
   edit: '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M14 6l4 4"/>',
   question: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17v.5"/>',
+  split: '<path d="M9 6h11M9 12h11M9 18h11M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/>',
 };
 const icon = name => `<svg class="i" viewBox="0 0 24 24">${ICON_PATHS[name] || ''}</svg>`;
 const MODE_ICON = { video: 'video', audio: 'audio', shots: 'shots' };
@@ -47,6 +48,7 @@ const state = {
   trFilter: '',
   follow: true,
   editingSummary: false,
+  ajanda: null, // Ajanda kurulu mu (ajanda:// bağlantısını açan uygulama var mı)
 };
 
 // ------------------------------------------------------------ biçimler
@@ -355,6 +357,7 @@ function headHtml(d) {
       <button class="btn sm primary" id="b-archive" ${busy || d.status !== 'ready' ? 'disabled' : ''} title="Videoyu/sesi sıkıştırır, ham izleri siler">${icon('archive')} ${d.status === 'archived' ? 'Arşivlendi' : 'Arşivle'}</button>
       <button class="btn sm" id="b-transcribe" ${busy || d.has_audio === false || (!d.media_url && !d.files['mikrofon.m4a'] && !d.files['sistem.m4a']) ? 'disabled' : ''}>${icon('text')} ${d.segments.length ? 'Dökümü yenile' : 'Döküm çıkar'}</button>
       <button class="btn sm" id="b-claude" title="Claude için hazır bir istek panoya kopyalanır">${icon('spark')} Claude'a sor</button>
+      ${state.ajanda ? `<button class="btn sm" id="b-ajanda" ${d.segments.length || d.summary?.trim() ? 'title="Claude dökümü okuyup Ajanda\'da görev, not ve proje taslakları hazırlar; eklemeden önce onayını ister"' : 'disabled title="Önce döküm çıkarın"'}>${icon('split')} Ajanda'ya böl</button>` : ''}
       ${d.status === 'failed' ? `<button class="btn sm" id="b-reprocess">${icon('refresh')} Yeniden işle</button>` : ''}
       <span class="spacer"></span>
       <button class="btn sm ghost" id="b-folder">${icon('folder')} Klasör</button>
@@ -606,6 +609,11 @@ function bindHead(d) {
   $('#b-claude').onclick = async () => {
     await call('meeting:claude-prompt', d.id);
     toast('İstek panoya kopyalandı — Claude\'a yapıştırın');
+  };
+  const toAjanda = $('#b-ajanda');
+  if (toAjanda) toAjanda.onclick = async () => {
+    await call('ajanda:split', d.id);
+    toast('Ajanda açıldı — Claude toplantıyı parçalıyor');
   };
   const re = $('#b-reprocess');
   if (re) re.onclick = async () => { await call('meeting:reprocess', d.id); refresh(); };
@@ -1048,6 +1056,7 @@ setInterval(() => {
 window.addEventListener('focus', () => refresh());
 
 (async () => {
+  state.ajanda = await call('ajanda:available').catch(() => false);
   await refresh();
   await route();
 })();
